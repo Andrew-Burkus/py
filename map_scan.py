@@ -3,13 +3,16 @@ import optparse
 import socket
 from socket import *
 
-def mapscan(tgtHost, tgtPort):
-	nmScan = nmap.PortScanner()
-	tgtHost = gethostbyname(tgtHost)
-	nmScan.scan(tgtHost, tgtPort)
+# state = scanner[tgtHost]['tcp'][int(tgtPort)]['state']
+# print "[*]" + tgtHost + " tcp/" + tgtPort + " " + state
 
-	state = nmScan[tgtHost]['tcp'][int(tgtPort)]['state']
-	print "[*]" + tgtHost + " tcp/" + tgtPort + " " + state
+def getinfo(tgtHost):
+	scanner = nmap.PortScanner()
+	scanner.scan(tgtHost, '22-443')
+	
+	for proto in scanner.all_protocols():
+		print '-----------'
+		print 'Protocol : %s'%proto
 
 def main():
 	parser = optparse.OptionParser('usage%prog ' + \
